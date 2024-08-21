@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:jammy
 
 LABEL maintainer="Marcin Domański <marcin@kabturek.info>" \
      description="monitor.sh script"
@@ -14,7 +14,9 @@ RUN set -x && \
         curl \
         git \
         mosquitto-clients \
-        xxd 
+        libmosquitto-dev \
+        libmosquitto1 \
+        xxd
 
 RUN mkdir /monitor && \
     git clone https://github.com/andrewjfreyer/monitor.git /monitor
