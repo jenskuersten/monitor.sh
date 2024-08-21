@@ -56,28 +56,19 @@ $ docker run -it -d --net=host --cap-add=NET_ADMIN -v /local/config/:/config mon
 $ docker run -it --rm --net=host --cap-add=NET_ADMIN -v /local/config/:/config monitor.sh bash monitor.sh -h
 ```
 
-## docker-compose
-
-Here is a sample docker-compose file. You can drop the command if you don't need
-a custom command.
+## Create a local image to be used in docker (compose)
+Build image in local docker registry
 
 ```
-version: '3'
+docker build . -t monitor.sh:latest
+```
+
+Integrate into docker compose file
+
+```
 services:
   monitor.sh:
-    image: kabturek/monitor.sh
+    image: monitor.sh # local image created from repos folder
     container_name: monitor.sh
-    restart: always
-    volumes: 
-      - /srv/monitor:/config
-    network_mode: host
-    cap_add:
-      - NET_ADMIN
-    command: bash monitor.sh -e -x -g -D /config
-```
-
-Running:
-
-```console
-$ docker-compose up -d monitor.sh
+    pull_policy: never # allows to run docker compose pull in a stack
 ```
